@@ -29,7 +29,7 @@ fibb(X):- fibb(X, _).
 split([], []).
 split([H|T], [A|Rest]):- append(A, B, [H|T]), A \= [], split(B, Rest).
 
-% Write predicate, whick pack equal and sequenced elements in list L
+% Write predicate, whick pack equals and sequenced elements in list L
 % For example L = [1,2,2,3,4,4,4] -> [[1], [2,2], [3], [4,4,4]]
 pack([], []).
 pack([A], [A]).
