@@ -45,7 +45,7 @@ q([V, E], X):- hasCycle([V, E], Path), member(X, Path).
 
 % Transposition
 getFirstColumn([], [], []).
-getFirstColumn([[H|T]|Rest], [H|Column], [T|NewM]):- getFirstColumn(Rest, Column, NewM). 
+getFirstColumn([[H|T]|Rest], [H|Column], [T|NewM]):- getFirstColumn(Rest, Column, NewM).
 
 emptyRows([]).
 emptyRows([[]|T]):- emptyRows(T).
@@ -53,4 +53,28 @@ emptyRows([[]|T]):- emptyRows(T).
 myTransponse(M, []):- emptyRows(M).
 myTransponse(M, [Column|Rest]):- getFirstColumn(M, Column, NewM), myTransponse(NewM, Rest).
 
-% To page 5
+
+% Page 5
+isSubset([], []).
+isSubset(L1, L2):- not(( member(X, L1), not(member(X, L2)) )).
+
+remove(X, L, R):- append(A, [X|B], L), append(A, B, R).
+
+mymin([M], M).
+mymin([_|T], M):- mymin(T, N), isSubset(M, N).
+
+subsetSort([], []).
+subsetSort([H|T], [M|R]):- mymin([H|T], M), remove([H|T], M, Q), subsetSort(Q, R). 
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+negative(0, 0).
+negative(N, M):- natural(N), natural(M), Nlast is N mod 10, Mlast is M mod 10, Mlast is 9-Nlast, 
+                    N1 is N div 10, M1 is M div 10, negative(N1, M1).
+
+prime(N, 1):- natural(N).
+prime(N, M):- natural(N), natural(M), N mod M =\= 0, M1 is M-1, prime(N, M1).
+prime(N):- N > 1, N1 is N-1, prime(N, N1).
+
+primeNegativesGenerator(N):- natural(N), negative(N, C), prime(C).
+
+% To middle of page 5
