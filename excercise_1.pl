@@ -77,4 +77,27 @@ prime(N):- N > 1, N1 is N-1, prime(N, N1).
 
 primeNegativesGenerator(N):- natural(N), negative(N, C), prime(C).
 
-% To middle of page 5
+
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+subsequence(_, []).
+subsequence([G|T1], [H|T2]):- member(H, T1), G \= H, subsequence(T1, [H|T2]).
+subsequence([H|T1], [H|T2]):- subsequence(T1, T2).
+
+concatElements([], []).
+concatElements([[]|Rest], Result):- concatElements(Rest, Result).
+concatElements([[H|T]|Rest], [H|TResult]):- concatElements([T|Rest], TResult).
+
+hasConcatSubsequence([], []).
+hasConcatSubsequence(L, M):- subsequence(L, M), concatElements(M, NewM), length(M, N), N > 1, member(NewM, L).
+
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+commonSubsequence([], _).
+commonSubsequence([H|T], Result):- subsequence(H, Result), commonSubsequence(T, Result). 
+
+longestCommonSubsequence([], []).
+longestCommonSubsequence(L, M):- commonSubsequence(L, M), length(M, MLen),
+                                not(( commonSubsequence(L, N), length(N, NLen), M \= N, NLen > MLen )).
+
+
+% To page 6
