@@ -101,3 +101,5 @@ longestCommonSubsequence(L, M):- commonSubsequence(L, M), length(M, MLen),
 
 
 % To page 6
+rt_term([]).
+rt_term([A, [A,B]]):- rt_term(A), rt_term(B).
