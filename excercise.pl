@@ -73,7 +73,7 @@ negative(N, M):- natural(N), natural(M), Nlast is N mod 10, Mlast is M mod 10, M
 
 prime(N, 1):- natural(N).
 prime(N, M):- natural(N), natural(M), N mod M =\= 0, M1 is M-1, prime(N, M1).
-prime(N):- N > 1, N1 is N-1, prime(N, N1).
+prime(N):- N > 1, N1 is N div 2, prime(N, N1).
 
 primeNegativesGenerator(N):- natural(N), negative(N, C), prime(C).
 
@@ -100,6 +100,14 @@ longestCommonSubsequence(L, M):- commonSubsequence(L, M), length(M, MLen),
                                 not(( commonSubsequence(L, N), length(N, NLen), M \= N, NLen > MLen )).
 
 
-% To page 6
 rt_term([]).
 rt_term([A, [A,B]]):- rt_term(A), rt_term(B).
+
+
+min(X, Y, X):- X =< Y.
+min(X, Y, Y):- X >= Y.
+
+sameDivisors(X, Y):- X =:= 0; Y =:= 0; X =:= Y.
+sameDivisors(X, Y):- abs(X, NewX), abs(Y, NewY), X =\= Y, NewX > 1, NewY > 1, min(X, Y, M), 
+                     not(( D > 1, D < M, prime(D), X mod D =:= P, Y mod D =:= Q, P \= Q )). 
+
