@@ -103,11 +103,21 @@ longestCommonSubsequence(L, M):- commonSubsequence(L, M), length(M, MLen),
 rt_term([]).
 rt_term([A, [A,B]]):- rt_term(A), rt_term(B).
 
+% Generate in M all lists, which elements are elements of L
+m(_, []).
+m(L, [H|T]):- m(L, T), member(H, L).
 
-min(X, Y, X):- X =< Y.
-min(X, Y, Y):- X >= Y.
 
-sameDivisors(X, Y):- X =:= 0; Y =:= 0; X =:= Y.
-sameDivisors(X, Y):- abs(X, NewX), abs(Y, NewY), X =\= Y, NewX > 1, NewY > 1, min(X, Y, M), 
-                     not(( D > 1, D < M, prime(D), X mod D =:= P, Y mod D =:= Q, P \= Q )). 
+%
+sign(0, 0).
+sign(N, M):- N =\= 0, (M is N; M is -N).
+
+int(Z):- natural(N), sign(N, Z).
+
+divisionGenrator(_, 0).
+divisionGenrator(M, N):- natural(X), X =\= 0, X mod M =:= 0, sign(X, N).
+
+%
+mybetween(A, B, A):- A =< B.
+mybetween(A, B, C):- A < B, A1 is A+1, mybetween(A1, B, C).
 
