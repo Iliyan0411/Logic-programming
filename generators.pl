@@ -67,3 +67,13 @@ arithmetic(L):- generateAllFiniteSequencesOfNaturalNumbers(L), condition(L).
 condition([]).
 condition([A, B]):- A < B.
 condition(L):- length(L, N), N > 2, not(( append(_, [AN, AN1, AN2|_], L), not(( AN < AN1, AN1 =:= (AN + AN2) / 2)) )).
+
+
+%
+addNewPairs([X], _, [X]).
+addNewPairs([[A,B], [C,D]|Rest], N, [[A,B], [E,F], [C,D]|NewRest]):- N =:= B+D, E is A+C, F is N, addNewPairs([[C,D]|Rest], N, [[C,D]|NewRest]).
+addNewPairs([[A,B], [C,D]|Rest], N, [[A,B], [C,D]|NewRest]):- N =\= B+D, addNewPairs([[C,D]|Rest], N, [[C,D]|NewRest]). 
+
+farey([[0,1], [1,1]], 1).
+farey(L, N):- farey(L1, N1), N is N1+1, addNewPairs(L1, N, L).
+farey(L):- farey(L, _).
