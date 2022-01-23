@@ -118,6 +118,31 @@ divisionGenrator(_, 0).
 divisionGenrator(M, N):- natural(X), X =\= 0, X mod M =:= 0, sign(X, N).
 
 %
+%
 mybetween(A, B, A):- A =< B.
 mybetween(A, B, C):- A < B, A1 is A+1, mybetween(A1, B, C).
+
+
+%
+mymember(X, [X|_]).
+mymember(X, [_|T]):- mymember(X, T).
+
+myappend([], L, L).
+myappend([H|T], L, [H|Rest]):- myappend(T, L, Rest). 
+
+mylength([], 0).
+mylength([_|T], N):- mylength(T, N1), N is N1+1.
+
+productOf([], 1).
+productOf([H|T], P):- P mod H =:= 0, P1 is P / H, productOf(T, P1).
+
+lastElement(X, [X]).
+lastElement(X, [_|T]):- lastElement(X, T).
+
+lastElementOfAnyMember(X, L):- mymember(A, L), lastElement(X, A).
+
+v(X, Y):- mymember(A, X), mymember(B, X), A \= B, myappend(A, B, Y),
+          mylength(Y, N), N mod 2 =:= 0,
+          productOf(Y, Prod), lastElement(Prod, X).
+        
 
